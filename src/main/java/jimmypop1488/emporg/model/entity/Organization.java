@@ -17,7 +17,7 @@ public class Organization {
 
     @NonNull
     @Column(name = "orgname", nullable = false, unique = true)
-    private String name;
+    public String name;
 
     @ManyToOne
     @JoinColumn(name = "headorgid")

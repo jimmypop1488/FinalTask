@@ -22,7 +22,7 @@ public class Staff {
     @NonNull
     @ManyToOne
     @JoinColumn(name = "stafforgid", nullable = false)
-    private Organization stafforgid;
+    public Organization stafforgid;
 
     @ManyToOne
     @JoinColumn(name = "headstaffid")

@@ -71,7 +71,12 @@ public class StaffController {
         Optional<Staff> headstaff = staffRepo.findByName(staff.headstaffid);
         if (!headstaff.isPresent())
             return staffRepo.save(staffMapper.staffFromDTO(staff, headorg.get(), null));
-        return staffRepo.save(staffMapper.staffFromDTO(staff, headorg.get(), headstaff.get()));
+        String hso = headstaff.get().stafforgid.name;
+        String so = staff.stafforgid;
+        if (so.equals(hso))
+            return staffRepo.save(staffMapper.staffFromDTO(staff, headorg.get(), headstaff.get()));
+        return null;
+
     }
 
     @PutMapping("{staffid}")
@@ -87,8 +92,14 @@ public class StaffController {
         Staff newstaff;
         if (!headstaff.isPresent())
             newstaff = staffMapper.staffFromDTO(staff, headorg.get(), null);
-        else
-            newstaff = staffMapper.staffFromDTO(staff, headorg.get(), headstaff.get());
+        else {
+            String hso = headstaff.get().stafforgid.name;
+            String so = staff.stafforgid;
+            if (so.equals(hso))
+                newstaff = staffMapper.staffFromDTO(staff, headorg.get(), headstaff.get());
+            else
+                return null;
+        }
         newstaff.staffid = st.get().staffid;
         staffRepo.save(newstaff);
         return staffMapper.staffToDTO(newstaff);
